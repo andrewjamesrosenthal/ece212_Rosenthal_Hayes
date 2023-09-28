@@ -33,12 +33,12 @@ output logic dp_n
     logic adv_min, adv_hr;
   //  assign empty = 8'b10000000;
 
-   // debounce DBNC(.clk, .pb, .rst, .pb_debounced);
+    //debounce DBNC(.clk, .pb, .rst, .pb_debounced);
     dig_clock DIGCLK(.rst, .adv_hr, .adv_min, .clk, .h1, .h0, .m1, .m0, .s1, .s0, .am_pm) ;
     sevenseg_ctl(.rst, .clk, .d7(h1), .d6(h0), .d5(m1), .d4(m0), .d3(s1), .d2(s0),.d1(empty), .d0(am_pm), .dp_n(dp_n), .an_n, .segs_n);
-//    debounce dbl( .clk, .pb(btn_l), .rst, .pb_debounced(adv_hr));
-//    debounce dbr(.clk, .pb(btn_r), .rst, .pb_debounced(adv_min));
-    single_pulser spl(.clk, .din(btn_l), .d_pulse(adv_hr));
-    single_pulser spr(.clk, .din(btn_r), .d_pulse(adv_min));
+debounce dbl( .clk, .pb(btn_l), .rst, .pb_debounced(hr_db));
+debounce dbr(.clk, .pb(btn_r), .rst, .pb_debounced(min_db));
+single_pulser spl(.clk, .din(hr_db), .d_pulse(adv_hr));
+single_pulser spr(.clk, .din(min_db), .d_pulse(adv_min));
     
 endmodule
