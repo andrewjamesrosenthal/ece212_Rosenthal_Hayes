@@ -20,9 +20,9 @@
 *.dcp
 
 # Vivado simulation
-*.wcfg
 *.wcfg.bak
 *.wcfg.old
+*.sim
 simulation/
 
 # Vivado IP
