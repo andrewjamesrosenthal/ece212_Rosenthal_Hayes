@@ -19,11 +19,7 @@ module controller(
 		    .alusrcb, .pcsrc, .aluop);
 
   aludec  U_ALUDEC(.funct, .aluop, .alucontrol);
-
-  // ADD CODE HERE
-  // Add combinational logic (e.g. an assign statement)
-  // to produce the PCEn signal (pcen) from the branch,
-  // zero, and pcwrite signals
-
+  
+    assign pcen = pcwrite | (branch & zero);
 
 endmodule

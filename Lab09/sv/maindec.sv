@@ -44,12 +44,10 @@ module maindec(
     if(reset) state = FETCH;
     else state = next;
 
-  // ADD CODE HERE
-  // Finish entering the next state logic below.  We've completed the first
-  // two states, FETCH and DECODE, for you.  See Figure 7.42 in the book.
 
   // next state logic
   always_comb begin
+      next = FETCH;
       case(state)
           FETCH:   next = DECODE;
           DECODE:  begin
@@ -63,26 +61,56 @@ module maindec(
                   default:     next = ERROR; // should never happen
               endcase
           end
-      // Add code here
-      MEMADR:
-      MEMRD:
-      MEMWB:
-      MEMWR:
-      RTYPEEX:
-      RTYPEWB:
-      BEQEX:
-      ADDIEX:
-      ADDIWB:
-      JEX:
+      
+      MEMADR: begin
+        case(opcode)
+            OP_LW: next = MEMRD;
+            OP_SW: next = MEMWR;
+        endcase
+      end
+      
+      MEMRD: begin
+        next = MEMWB;
+      end
+      
+      MEMWB: begin
+        next = FETCH;
+      end
+      
+      MEMWR: begin
+        next = FETCH;
+      end
+      
+      RTYPEEX: begin
+        next = RTYPEWB;
+      end
+      
+      RTYPEWB: begin
+        next = FETCH;
+      end
+      
+      BEQEX: begin
+        next = FETCH;
+      end
+      
+      ADDIEX: begin
+        next = ADDIWB;
+      end
+      
+      ADDIWB: begin
+        next = FETCH;
+      end
+      
+      JEX: begin
+        next = FETCH;
+      end
+      
       ERROR:   next = ERROR;  // stay in ERROR state until reset
       default: next = ERROR;  // should never happen but go to ERROR if it does
   endcase
-
+end
   // output logic
 
-  // ADD CODE HERE
-  // Finish entering the output logic below.  We've entered the
-  // output logic for the first two states, FETCH(S0) and DECODE(S1), for you.
   always_comb begin
       // default output values
       pcwrite = 0;
@@ -104,8 +132,8 @@ module maindec(
               alusrcb = 2'b01;
               aluop = 2'b00;
               pcsrc = 2'b00;
-              irwrite = 1;
-              pcwrite = 1;
+              irwrite = 1'b1;
+              pcwrite = 1'b1;
           end
           DECODE: begin
               alusrca = 0;
@@ -113,11 +141,63 @@ module maindec(
               aluop = 2'b00;
           end
 
-          // add code here to specify outputs for remaining states
-          // note you only need to add values specified in each state bubble
-          // because default values are set before the case statement
-
-          // just use default values set before case
+          MEMADR: begin
+            alusrca = 1'b1;
+            alusrcb = 2'b10;
+            aluop = 2'b00;
+          end
+          
+          MEMRD: begin
+            iord = 1'b1;
+          end
+          
+          MEMWB: begin
+            regdst = 0;
+            memtoreg = 1'b1;
+            regwrite = 1'b1;
+          end
+          
+          MEMWR: begin
+            iord = 1'b1;
+            memwrite = 1'b1;
+          end
+          
+          RTYPEEX: begin
+            alusrca = 1'b1;
+            alusrcb = 2'b00;
+            aluop = 2'b10;
+          end
+          
+          RTYPEWB: begin
+            regdst = 1'b1;
+            memtoreg = 0;
+            regwrite = 1'b1;
+          end
+          
+          BEQEX: begin
+            alusrca = 1'b1;
+            alusrcb = 2'b00;
+            aluop = 2'b01;
+            pcsrc = 2'b01;
+            branch = 1'b1;
+          end
+          
+          ADDIEX: begin
+            alusrca = 1'b1;
+            alusrcb = 2'b10;
+            aluop = 2'b00;
+          end
+          
+          ADDIWB: begin
+            regdst = 0;
+            memtoreg = 0;
+            regwrite = 1'b1;
+          end
+          
+          JEX: begin
+            pcsrc = 2'b10;
+            pcwrite = 1'b1;
+          end
 
       endcase // case (state)
   end
