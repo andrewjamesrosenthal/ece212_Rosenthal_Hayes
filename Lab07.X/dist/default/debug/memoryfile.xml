@@ -1,0 +1,37 @@
+<<<<<<< HEAD
+<?xml version="1.0" encoding="UTF-8"?> 
+<project>                                  
+  <executable name="dist/default/debug/Lab07.X.debug.elf">                 
+    <memory name="program">                 
+      <units>bytes</units>                 
+      <length>132240</length>                 
+      <used>1732</used>                     
+      <free>130508</free>                     
+    </memory>                              
+    <memory name="data">              
+      <units>bytes</units>                 
+      <length>32768</length>                 
+      <used>566</used>                     
+      <free>32202</free>                     
+    </memory>                              
+  </executable>                            
+</project>                                 
+=======
+<?xml version="1.0" encoding="UTF-8"?> 
+<project>                                  
+  <executable name="dist/default/debug/Lab07.X.debug.elf">                 
+    <memory name="program">                 
+      <units>bytes</units>                 
+      <length>132240</length>                 
+      <used>1732</used>                     
+      <free>130508</free>                     
+    </memory>                              
+    <memory name="data">              
+      <units>bytes</units>                 
+      <length>32768</length>                 
+      <used>566</used>                     
+      <free>32202</free>                     
+    </memory>                              
+  </executable>                            
+</project>                                 
+>>>>>>> 23191aca4be07e111b841e90f72e7a0f76ce0baa
